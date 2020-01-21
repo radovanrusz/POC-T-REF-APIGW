@@ -1,0 +1,134 @@
+[
+    {
+        "id": "pwhjj",
+        "name": "Prohlizeni WHJ Journalu",
+        "allowed": {
+            "read": ["manager", "worker", "coworker"],
+            "write": ["manager"]
+        },
+        "subpages": [
+            {
+                "id": "home",
+                "name": "Domu Journal",
+                "content": {
+                    "title": "Prohlizeni WHJ Journalu domovska stranka",
+                    "text": "vitajte na prohlizeni journalu"
+                }
+            },
+            {
+                "id": "personalAdministration",
+                "name": "Osobni administrace Journal",
+                "content": {
+                    "title": "Prohlizeni WHJ Journalu osobni administrace",
+                    "text": "vitajte na osobni administraci journalu",
+                    "filterTable": true
+                }
+            },
+            {
+                "id": "agendaAdministration",
+                "name": "Administrace agend",
+                "content": {
+                    "title": "Prohlizeni WHJ Journalu agenda administrace",
+                    "text": "vitajte na osobni administraci journalu agenda"
+                }
+            },
+            {
+                "id": "userAdministration",
+                "name": "Administrace uzivatelov",
+                "content": {
+                    "title": "Prohlizeni WHJ Journalu user administrace",
+                    "text": "vitajte na osobni administraci journalu user"
+                }
+            },
+            {
+                "id": "roleAdministration",
+                "name": "Administrace roli",
+                "content": {
+                    "title": "Prohlizeni WHJ Journalu role administrace",
+                    "text": "vitajte na osobni administraci journalu role"
+                }
+            }
+        ]
+    },
+    {
+        "id": "rm",
+        "name": "Registrace materialu",
+        "allowed": {
+            "read": ["manager", "worker"],
+            "write": ["manager", "worker"]
+        },
+        "subpages": [
+            {
+                "id": "home",
+                "name": "Domu registrace materialu",
+                "content": {
+                    "title": "Registrace materialu domovska stranka",
+                    "text": "vitajte na home materialu"
+                }
+            },
+            {
+                "id": "personalAdministration",
+                "name": "Osobni administrace registrace materialu",
+                "content": {
+                    "title": "registrace materialu osobni administrace",
+                    "text": "vitajte na osobni administraci registrace materialu",
+                    "inputs": true
+                }
+            }
+        ]
+    },
+    {
+        "id": "sm",
+        "name": "Stavajici material",
+        "allowed": {
+            "read": ["manager", "worker", "coworker"],
+            "write": ["manager", "worker"]
+        },
+        "subpages": [
+            {
+                "id": "home",
+                "name": "Domu stavajici material",
+                "content": {
+                    "title": "Stavajici material home",
+                    "text": "vitajte na stavajici material home"
+                }
+            },
+            {
+                "id": "personalAdministration",
+                "name": "Osobni administrace stavajici material",
+                "content": {
+                    "title": "Stavajici material administrace",
+                    "text": "vitajte na stavajici material administrace",
+                    "filterTable": true
+                }
+            }
+        ]
+    },
+    {
+        "id": "pm",
+        "name": "Presun materialu",
+        "allowed": {
+            "read": ["manager", "worker", "coworker"],
+            "write": ["manager", "worker"]
+        },
+        "subpages": [
+            {
+                "id": "home",
+                "name": "Domu presun materialu",
+                "content": {
+                    "title": "Presun material home",
+                    "text": "vitajte na presun materialu home"
+                }
+            },
+            {
+                "id": "personalAdministration",
+                "name": "Osobni administrace presun materialu",
+                "content": {
+                    "title": "Presun materialu administrace",
+                    "text": "vitajte na presun materialu administrace",
+                    "filterTable": true
+                }
+            }
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+
+applications:
+- instances: 1
+  timeout: 180
+  name: api-gateway-poc-ibm-cz2
+  buildpack: sdk-for-nodejs
+  command: npm run start 
+  memory: 256MB
+  domain: eu-de.mybluemix.net
+  host: my-dev-xc4ezcdtcc4z247-gateway-api-poc
+

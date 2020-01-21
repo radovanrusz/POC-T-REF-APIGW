@@ -1,0 +1,9 @@
+**/launchConfigurations
+**/node_modules
+**/.vscode
+**/temp
+package-lock.json
+
+**/logs/**
+deployAppToIbmCloud.sh
+**/coverage
