@@ -2,53 +2,25 @@
   "name": "express-gateway-plugin-jwt-rewrite",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "env-cmd -f ./config/.dev.env node ./bin/www",
     "localDev": "nodemon ./bin/www",
     "localDebug": "nodemon --inspect ./bin/www",
-    "pretest": "eslint --ignore-path .gitignore .",
-    "test": "env-cmd  -f .env jest --watch --runInBand",
     "docker": "env-cmd -f ./config/.docker.env node ./bin/www"
   },
   "dependencies": {
-    "async": "^2.6.2",
     "axios": "^0.19.0",
-    "basic-auth": "2.0.1",
     "body-parser": "^1.19.0",
-    "chalk": "3.0.0",
-    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "~4.16.4",
-    "express-jwt": "^5.3.1",
-    "express-openapi-validate": "^0.4.4",
-    "http": "0.0.0",
-    "http-errors": "^1.7.3",
-    "js-yaml": "^3.13.1",
     "jsonwebtoken": "^8.5.1",
-    "moment-timezone": "^0.5.25",
-    "morgan": "^1.9.1",
-    "path": "^0.12.7",
-    "payapi-swagger-mongoose": "^1.2.8",
-    "pug": "^2.0.4",
-    "supertest": "^4.0.2",
-    "swagger-ui-express": "4.0.2",
-    "util": "^0.12.1",
-    "winston": "^3.2.1",
-    "yamljs": "^0.3.0"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "eslint": "^6.7.2",
-    "jest": "^24.9.0",
     "nodemon": "^1.19.0"
   },
   "author": "",
-  "license": "ISC",
-  "description": "",
-  "jest": {
-    "testEnvironment": "node",
-    "watchDelay": 3000,
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  }
+  "license": "",
+  "description": ""
 }

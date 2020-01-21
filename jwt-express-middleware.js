@@ -12,8 +12,6 @@ https://scotch.io/tutorials/the-anatomy-of-a-json-web-token
 const os = require('os');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const {loggers} = require('winston');
-const logger = loggers.get('security')
 const moment = require('moment-timezone');
 
 
@@ -27,7 +25,7 @@ fs.readFile('./keys/mykey.pub', 'utf8', (err, data) => {
 
 // zakladni validace pro vsechny
 const checkCoreToken = async (req, res) => {
-	logger.info(`Incoming request ${JSON.stringify(req.headers)}`)
+	console.log(`Incoming request ${JSON.stringify(req.headers)}`)
 	const tempPromise = new Promise((resolve) => {
 		const SystemConfig = res.app.get('system_config');
 
@@ -38,7 +36,7 @@ const checkCoreToken = async (req, res) => {
 			try {
 				jwt.verify(token, publicKey, (err, payload) => {
 					if (err) {
-						logger.error(`JWT verification error: ${JSON.stringify(err)}`)
+						console.error(`JWT verification error: ${JSON.stringify(err)}`)
 						let errMsg
 						if (Boolean(err.name) && err.name === 'TokenExpiredError') {
 							errMsg = 'Expired jwt token payload'
@@ -50,7 +48,7 @@ const checkCoreToken = async (req, res) => {
 
 							}
 						}
-						logger.error(errMsg)
+						console.error(errMsg)
 						resolve({
 							code: 403,
 							message: errMsg
@@ -58,17 +56,17 @@ const checkCoreToken = async (req, res) => {
 
 					} else {
 
-						logger.info('Incoming token successfuly decrypted: ' + JSON.stringify(payload))
+						console.log('Incoming token successfuly decrypted: ' + JSON.stringify(payload))
 
 						try {
-							logger.info('Validation starting for incoming jwt token payload: ' + JSON.stringify(payload))
-							logger.info('JWT was issued: ' + moment(payload.iat * 1000).toISOString())
-							logger.info('JWT will expire: ' + moment(payload.exp * 1000).toISOString())
-							logger.info('Current time to compare with exp: ' + moment().toISOString())
+							console.log('Validation starting for incoming jwt token payload: ' + JSON.stringify(payload))
+							console.log('JWT was issued: ' + moment(payload.iat * 1000).toISOString())
+							console.log('JWT will expire: ' + moment(payload.exp * 1000).toISOString())
+							console.log('Current time to compare with exp: ' + moment().toISOString())
 
 							if (SystemConfig.APP_ANAT_HOST !== payload.iss) {
 
-								logger.error(`Invalid jwt token iss. Incoming: ${payload.iss}, expected: ${os.hostname()}`)
+								console.error(`Invalid jwt token iss. Incoming: ${payload.iss}, expected: ${os.hostname()}`)
 								resolve({
 									code: 403,
 									message: 'Invalid jwt token'
@@ -77,7 +75,7 @@ const checkCoreToken = async (req, res) => {
 
 						} catch (error) {
 							const errMsg = `Invalid jwt token iss. Err: ${JSON.stringify(error)}`
-							logger.error()
+							console.error()
 							resolve({
 								code: 403,
 								message: errMsg
@@ -97,7 +95,7 @@ const checkCoreToken = async (req, res) => {
 
 			} catch (err) {
 				const errMsg = `Invalid jwt user token supplied: ${JSON.stringify(err)}`
-				logger.error()
+				console.error()
 				resolve({
 					code: 403,
 					message: errMsg
@@ -105,7 +103,7 @@ const checkCoreToken = async (req, res) => {
 			}
 
 		} else {
-			logger.error('No jwt user token supplied')
+			console.error('No jwt user token supplied')
 			resolve({
 				code: 403,
 				message: 'No jwt user token supplied'
@@ -128,19 +126,19 @@ const checkCoreToken = async (req, res) => {
  * @param {*} next 
  */
 const checkSecurityToken = async (req, res, next) => {
-	logger.info(`Incoming request ${JSON.stringify(req.headers)}`)
+	console.log(`Incoming request ${JSON.stringify(req.headers)}`)
 	await checkCoreToken(req, res).then((result) => {
 		console.log(result)
 		if (result.code === 200) {
 			try {
-				logger.info(`Route access approved using provided jwt token payload. Going further to the service with: ${JSON.stringify(result.payload)}`)
+				console.log(`Route access approved using provided jwt token payload. Going further to the service with: ${JSON.stringify(result.payload)}`)
 				req.jwtPayload = result.payload
 
 				return next()
 
 			} catch (err) {
 				const errMsg = 'Unexpected error during jwt token handling P2'
-				logger.error(errMsg)
+				console.error(errMsg)
 
 				return next({
 					code: 500,
@@ -156,7 +154,7 @@ const checkSecurityToken = async (req, res, next) => {
 		}
 	}).catch((error) => {
 		const errMsg = `Unexpected error during jwt token handling: ${JSON.stringify(error)}`
-		logger.error(errMsg)
+		console.error(errMsg)
 
 		return next({
 			code: 500,
