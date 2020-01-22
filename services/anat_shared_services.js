@@ -24,6 +24,16 @@ fs.readFile('./keys/mykey.pub', 'utf8', (err, data) => {
 
 });
 
+let privateKey = null;
+fs.readFile('./keys/mykey.pem', 'utf8', (err, data) => {
+    if (err) {
+        throw err;
+    }
+    privateKey = data;
+    console.log(`private key inicialized with: ${JSON.stringify(privateKey)}`)
+
+});
+
 // eslint-disable-next-line space-before-function-paren
 module.exports = function SharedServicesANAT(sConfig) {
     systemConfig = sConfig
