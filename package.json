@@ -19,7 +19,8 @@
     "jsonwebtoken": "^8.5.1",
     "moment-timezone": "^0.5.27",
     "path": "^0.12.7",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "env-cmd": "^10.0.1"
   },
   "devDependencies": {
     "eslint": "^6.7.2",

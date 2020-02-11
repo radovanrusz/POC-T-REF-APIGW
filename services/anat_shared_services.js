@@ -41,12 +41,82 @@ module.exports = function SharedServicesANAT(sConfig) {
 
     const doRemoteLogin = async (data) => {
 
-        /*
-        Realizuje vzdalene volani na Anat sluzbu pro ziskani JWT tokenu    
-        
-        Bude implementovano TZ podle BoxNote dokumentace pro APIGW a ANAT sluzbu
-        */
-        return {}
+
+        const promise = new Promise((resolve) => {
+
+            const url = systemConfig.APP_ANAT_URL
+            if (data) {
+                const data2 = {
+                    clientId: systemConfig.CLIENT_ID,
+                    uid: data.name,
+                    password: data.password
+
+                }
+
+                console.log(`About to start remote login request: ${JSON.stringify(data2)} using server url: ${url}`)
+
+                axios.post(
+                    url,
+                    data2,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+
+                        },
+                        timeout: 5000
+                    }
+                ).then((res) => {
+
+                    console.log(`Remote login, token successfuly generated: ${JSON.stringify(res.data)}`)
+                    const res2 = {
+                        status: 200,
+                        statusCase: 'ok',
+                        msg: 'authentication done',
+                        id: res.data.id,
+                        name: res.data.name,
+                        email: res.data.email,
+                        role: res.data.roles,
+                        token: res.data.token
+                    }
+                    console.log(`Local mock login, response successfuly generated: ${JSON.stringify(res2)}`)
+                    resolve(res2)
+                }).catch((error) => {
+                    console.log(`Remote login error: ${JSON.stringify(error)}`)
+                    let errMsg = ''
+                    if (error.message) {
+                        errMsg = `Remote login error: ${error.message}`
+
+                    } else {
+                        errMsg = `No response from server for request ${JSON.stringify(data)}. Check its availability. Axios error code: ${error.response.data} ${error.response.status}`
+                    }
+
+                    console.log(errMsg)
+                    const res = {
+                        status: 502,
+                        statusCase: 'err',
+                        msg: errMsg
+                    }
+                    resolve(res)
+
+                });
+
+            } else {
+                const errMsg = `No data or security header provided for a remote login request ${JSON.stringify(data)}`
+                console.log(errMsg)
+                const res = {
+                    status: 400,
+                    statusCase: 'err',
+                    msg: errMsg
+                }
+                resolve(res)
+
+            }
+        })
+
+        const result = await promise
+
+
+        return result
 
 
     }
@@ -109,7 +179,7 @@ module.exports = function SharedServicesANAT(sConfig) {
             if (req) {
                 const remoteUrl = selectServiceToCall(req)
                 if (isNaN(remoteUrl)) {
-                    console.log(`About to call  remote server url: ${remoteUrl}`)
+                    console.log(`About to call remote server url: ${remoteUrl}`)
                     axios({
                         method: req.method,
                         url: remoteUrl,
@@ -117,8 +187,8 @@ module.exports = function SharedServicesANAT(sConfig) {
                         responseType: 'application/json',
                         headers: {
                             'Content-Type': 'application/json'
-
-                        }
+                        },
+                        data: req.body
                     })
                         .then((res) => {
                             //  console.log(res.data);

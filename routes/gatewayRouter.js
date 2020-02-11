@@ -8,16 +8,32 @@ const router = express.Router();
 const jwtMiddleware = require('../jwt-express-middleware');
 
 /* gET home page. */
+
 router.put('/*', jwtMiddleware.checkSecurityToken, async (req, res) => {
+	try {
+		const Services = res.app.get('shared_services');
+		console.log(`Starting gateway PUT api on path: ${req.path} with incoming request: ${JSON.stringify(req.body)}' and jwt payload: ${JSON.stringify(req.jwtPayload)}`)
+		let status = 500
+		const result = await Services.doRemoteRequest(req)
+		console.log(`Remote api done with result: ${JSON.stringify(result)}`)
 
-	const Services = res.app.get('shared_services');
-	const SystemConfig = res.app.get('system_config');
-	console.log(`Starting gateway PUT api on path: ${req.path} with incoming request: ${JSON.stringify(req.body)}' and jwt payload: ${JSON.stringify(req.jwtPayload)}`)
+		if (result) {
+			status = 200
+			res.json(result).status(200).end()
+			
+		} else {
+			res.sendStatus(status)
+		}
 
-	/*
-		Bude implementovano TZ analogicky k nasledujici funkci GET
-	*/
 
+	} catch (err) {
+		if (typeof err === 'object') {
+			console.log(`Error: Remote service api ERR: ${JSON.stringify(err)}`)
+		} else if (typeof err === 'string' || err instanceof String) {
+			console.log(`Error: Remote service api ERR: ${err}`)
+		}
+		res.sendStatus(500)
+	}
 });
 
 router.get('/*', jwtMiddleware.checkSecurityToken, async (req, res) => {

@@ -129,7 +129,7 @@ module.exports = function ConfigServices () {
             console.error('No user defined evn variable APP_MATERIAL_URL');
         }
 
-        if (process.env.hasOwnProperty('APP_MATERIAL_POST_PATH')) {
+        if (process.env.hasOwnProperty('APP_MATERIAL_PUT_PATH')) {
             vcap.APP_MATERIAL_PUT_PATH = process.env.APP_MATERIAL_PUT_PATH;
         } else {
             console.error('No user defined evn variable APP_MATERIAL_POST_PATH');
